@@ -28,6 +28,13 @@ private:
 
 public:
     DoublyLinkedList() { head = nullptr; tail = nullptr; }
+
+    string get_front() {
+        if (head) {
+            return head->data;
+        }
+    }
+
     /*
     void insert_after(int value, int position) {
         if (position < 0) {
@@ -221,12 +228,23 @@ string getRandomCustomer(vector<string>& names) {
         return "";
     }
     string customer;
-    int randomNum = rand() % names.size();      // Random index
+    int randomNum = rand() % names.size();      // Generate a random index
 
-    customer = names.at(randomNum);             // Get a random customer
+    customer = names.at(randomNum);             // Get a random customer at that index
     names.erase(names.begin() + randomNum);     // Remove the customer from the list
 
     return customer;
+}
+
+void customerJoinsLine(vector<string>& names, DoublyLinkedList& customersLine) {
+    string newCustomer = getRandomCustomer(names);
+    customersLine.push_back(newCustomer);
+    cout << "\t" << newCustomer << " joins the line\n";
+}
+
+void customerGetsServed(DoublyLinkedList& customersLine) {
+    cout << 
+    customersLine.pop_front();
 }
 
 int main() {
@@ -249,9 +267,7 @@ int main() {
     // Open the store and add five customers (time step 1)
     cout << "Store opens:\n";
     for (int i = 0; i < 5; ++i) {
-        string newCustomer = getRandomCustomer(names);
-        customersLine.push_back(newCustomer);
-        cout << "\t" << newCustomer << " joins the line\n";
+        customerJoinsLine(names, customersLine);
     }
     cout << "\tResulting line:\n";
     customersLine.print();
@@ -259,6 +275,21 @@ int main() {
     // Time period runs 20 times.
     for (int i = 2; i <= 20; ++i) {
         cout << "Time step #" << i << ":\n";
+        
+        int probability = rand() % 100 + 1;    // returns a random number 1-100
+        // 40% chance of a customer being helped at the beginning of hte line and ordering their coffee
+        if (probability <= 40) {
+            customerGetsServed(customerLine);
+
+            cout < " "
+        }
+
+
+        // 60% chance of a customer joining the end of the line
+        if (probability <= 60) {
+            customerJoinsLine(names, customersLine);
+        }
+
     }
 
     
