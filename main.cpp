@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <fstream>
+#include <vector>
 using namespace std;
 
 const int MIN_NR = 10, MAX_NR = 99, MIN_LS = 5, MAX_LS = 20;
@@ -216,13 +217,46 @@ public:
     }
 };
 
+string getRandomCustomer(vector<string>& names) {
+    if (names.empty()) {
+        return "";
+    }
+    string customer;
+    int randomNum = rand() % names.size();
+
+    customer = names.at(randomNum);             // Get a random customer
+    names.erase(names.begin() + randomNum);     // Remove the customer from the list
+
+    return customer;
+}
+
 int main() {
-    srand(time(0));
+    srand(time(0)); // Seed
 
     DoublyLinkedList customersLine;
 
-    
+    // Read all the names from the file, store it in a vector
+    vector<string> names;
+    ifstream namesFile("names.txt");
+    if (!namesFile) {
+        cout << "Unable to open file.\n";
+        return 1;
+    }
+    string name;
+    while (namesFile >> name) {
+        names.push_back(name);
+    }
 
+    // Open the store and add five customers
+    cout << "Store opens:\n";
+    for (int i = 0; i < 5; ++i) {
+        
+    }
+
+    // Time period runs 20 times.
+    for (int i = 0; i < 20; ++i) {
+
+    }
 
     
     return 0;
