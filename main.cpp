@@ -197,10 +197,9 @@ public:
             return;
         }
         while (current) {
-            cout << current->data << " ";
+            cout << "\t" << current->data << "\n";
             current = current->next;
         }
-        cout << endl;
     }
 
     void print_reverse() {
@@ -222,7 +221,7 @@ string getRandomCustomer(vector<string>& names) {
         return "";
     }
     string customer;
-    int randomNum = rand() % names.size();
+    int randomNum = rand() % names.size();      // Random index
 
     customer = names.at(randomNum);             // Get a random customer
     names.erase(names.begin() + randomNum);     // Remove the customer from the list
@@ -247,15 +246,19 @@ int main() {
         names.push_back(name);
     }
 
-    // Open the store and add five customers
+    // Open the store and add five customers (time step 1)
     cout << "Store opens:\n";
     for (int i = 0; i < 5; ++i) {
-        
+        string newCustomer = getRandomCustomer(names);
+        customersLine.push_back(newCustomer);
+        cout << "\t" << newCustomer << " joins the line\n";
     }
+    cout << "\tResulting line:\n";
+    customersLine.print();
 
     // Time period runs 20 times.
-    for (int i = 0; i < 20; ++i) {
-
+    for (int i = 2; i <= 20; ++i) {
+        cout << "Time step #" << i << ":\n";
     }
 
     
