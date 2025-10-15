@@ -2,6 +2,9 @@
 // IDE used: Visual Studio 2022
 
 #include <iostream>
+#include <cstdlib>
+#include <ctime>
+#include <fstream>
 using namespace std;
 
 const int MIN_NR = 10, MAX_NR = 99, MIN_LS = 5, MAX_LS = 20;
@@ -9,10 +12,10 @@ const int MIN_NR = 10, MAX_NR = 99, MIN_LS = 5, MAX_LS = 20;
 class DoublyLinkedList {
 private:
     struct Node {
-        int data;
+        string data;    // Node data has been modified to a string to hold the customer names.
         Node* prev;
         Node* next;
-        Node(int val, Node* p = nullptr, Node* n = nullptr) {
+        Node(const string& val, Node* p = nullptr, Node* n = nullptr) {
             data = val; 
             prev = p;
             next = n;
@@ -24,7 +27,7 @@ private:
 
 public:
     DoublyLinkedList() { head = nullptr; tail = nullptr; }
-
+    /*
     void insert_after(int value, int position) {
         if (position < 0) {
             cout << "Position must be >= 0." << endl;
@@ -54,8 +57,9 @@ public:
         else
             tail = newNode;
         temp->next = newNode;
-    }
+    }*/
 
+    /*
     void delete_val(int value) {
         if (!head) return;
 
@@ -77,8 +81,9 @@ public:
             tail = temp->prev; 
 
         delete temp;
-    }
+    }*/
 
+    // Any particular customer in the line (random position) decides they don't want to wait and leaves
     void delete_pos(int pos) {
         if (!head) {
             cout << "List is empty." << endl;
@@ -116,7 +121,8 @@ public:
         delete temp;
     }
 
-    void push_back(int v) {
+    // New customer joins the end of the line
+    void push_back(string v) {
         Node* newNode = new Node(v);
         if (!tail)
             head = tail = newNode;
@@ -127,7 +133,8 @@ public:
         }
     }
     
-    void push_front(int v) {
+    // VIP skips the line
+    void push_front(string v) {
         Node* newNode = new Node(v);
         if (!head)
             head = tail = newNode;
@@ -137,7 +144,8 @@ public:
             head = newNode;
         }
     }
-    
+
+    // Customer at the beginning of the line is helped (and leaves)
     void pop_front() {
 
         if (!head) {
@@ -156,6 +164,7 @@ public:
         delete temp;
     }
 
+    // Customer at the end of the line gets tired of waiting and leaves
     void pop_back() {
         if (!tail) {
             cout << "List is empty." << endl;
@@ -172,6 +181,7 @@ public:
         delete temp;
     }
 
+    // Destructor
     ~DoublyLinkedList() {
         while (head) {
             Node* temp = head;
@@ -207,7 +217,12 @@ public:
 };
 
 int main() {
-    cout << MIN_NR + MIN_LS + MAX_NR + MAX_LS;  // dummy statement to avoid compiler warning
+    srand(time(0));
+
+    DoublyLinkedList customersLine;
+
+    
+
 
     
     return 0;
