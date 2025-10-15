@@ -35,6 +35,12 @@ public:
         }
     }
 
+    string get_back() {
+        if (tail) {
+            return tail->data;
+        }
+    }
+
     /*
     void insert_after(int value, int position) {
         if (position < 0) {
@@ -243,8 +249,13 @@ void customerJoinsLine(vector<string>& names, DoublyLinkedList& customersLine) {
 }
 
 void customerGetsServed(DoublyLinkedList& customersLine) {
-    cout << 
+    cout << "\t" << customersLine.get_front() << " is served\n";
     customersLine.pop_front();
+}
+
+void customerAtEndLeaves(DoublyLinkedList& customersLine) {
+    cout << "\t" << customersLine.get_back() << " (at the rear) left the line\n";
+    customersLine.pop_back();
 }
 
 int main() {
@@ -279,15 +290,19 @@ int main() {
         int probability = rand() % 100 + 1;    // returns a random number 1-100
         // 40% chance of a customer being helped at the beginning of hte line and ordering their coffee
         if (probability <= 40) {
-            customerGetsServed(customerLine);
-
-            cout < " "
+            customerGetsServed(customersLine);
         }
 
-
         // 60% chance of a customer joining the end of the line
+        probability = rand() % 100 + 1;
         if (probability <= 60) {
             customerJoinsLine(names, customersLine);
+        }
+
+        // 20% chance that a customer at the end of the line gets tired of waiting and leaves
+        probability = rand() % 100 + 1;
+        if (probability <= 20) {
+            customerAtEndLeaves(customersLine);
         }
 
     }
