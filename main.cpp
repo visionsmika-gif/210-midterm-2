@@ -47,13 +47,13 @@ public:
 
     // Function to get the data at a certain position
     string get_at_pos(int position) {
-        if (position < 0) {
-            cout << "Position must be >= 0." << endl;
+        if (position <= 0) {
+            cout << "Position must be > 0." << endl;
             return "";
         }
 
         Node* temp = head;
-        for (int i = 0; i < position && temp; ++i)
+        for (int i = 1; i < position && temp; ++i)
             temp = temp->next;
 
         if (!temp) {
