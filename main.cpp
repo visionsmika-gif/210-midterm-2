@@ -263,53 +263,13 @@ public:
     }
 };
 
-string getRandomCustomer(vector<string>& names) {
-    if (names.empty()) {
-        cout << "No names are in the list.\n";
-        return "";
-    }
-    string customer;
-    int randomNum = rand() % names.size();      // Generate a random index
-
-    customer = names.at(randomNum);             // Get a random customer at that index
-    names.erase(names.begin() + randomNum);     // Remove the customer from the list
-
-    return customer;
-}
-
-void customerJoinsLine(vector<string>& names, DoublyLinkedList& customersLine) {
-    string newCustomer = getRandomCustomer(names);
-    customersLine.push_back(newCustomer);
-    cout << "\t" << newCustomer << " joined the line\n";
-}
-
-// TODO: possibly make it so that when a customer leaves, they get added back to the names vector (and can come back later?)
-void customerGetsServed(DoublyLinkedList& customersLine) {
-    cout << "\t" << customersLine.get_front() << " is served\n";
-    customersLine.pop_front();
-}
-
-void customerAtEndLeaves(DoublyLinkedList& customersLine) {
-    cout << "\t" << customersLine.get_back() << " (at the rear) left the line\n";
-    customersLine.pop_back();
-}
-
-void randomCustomerLeaves(DoublyLinkedList& customersLine) {
-    int randomPos = rand() % customersLine.get_size() + 1;
-    cout << "\t" << customersLine.get_at_pos(randomPos) << " left the line\n";
-    customersLine.delete_pos(randomPos);
-}
-
-void vipCustomerJoins(vector<string>& names, DoublyLinkedList& customersLine) {
-    string newCustomer = getRandomCustomer(names);
-    customersLine.push_back(newCustomer);
-    cout << "\t" << newCustomer << " joined the line\n";
-}
-
-void printResultingLine(const DoublyLinkedList& customersLine) {
-    cout << "\tResulting line:\n";
-    customersLine.print();
-}
+string getRandomCustomer(vector<string>& names);                                    // Function to get a random customer from the list of names
+void customerJoinsLine(vector<string>& names, DoublyLinkedList& customersLine);     // Function to add a random customer to the end of the line
+void customerGetsServed(DoublyLinkedList& customersLine);                           // Function to serve a customer at the front of the line
+void customerAtEndLeaves(DoublyLinkedList& customersLine);                          // Function to have the customer at the end of the line leave
+void randomCustomerLeaves(DoublyLinkedList& customersLine);                         // Function to have a random customer in the line leave
+void vipCustomerJoins(vector<string>& names, DoublyLinkedList& customersLine);      // Function to have a VIP customer join the line and skip to the front
+void printResultingLine(const DoublyLinkedList& customersLine);                     // Function to print the line of customers
 
 int main() {
     srand(time(0));                     // Seed for RNG
@@ -374,4 +334,58 @@ int main() {
     }
     
     return 0;
+}
+
+// Function to get a random customer from the list of names
+string getRandomCustomer(vector<string>& names) {
+    if (names.empty()) {
+        cout << "No names are in the list.\n";
+        return "";
+    }
+    string customer;
+    int randomNum = rand() % names.size();      // Generate a random index
+
+    customer = names.at(randomNum);             // Get a random customer at that index
+    names.erase(names.begin() + randomNum);     // Remove the customer from the list
+
+    return customer;
+}
+
+// Function to add a random customer to the end of the line
+void customerJoinsLine(vector<string>& names, DoublyLinkedList& customersLine) {
+    string newCustomer = getRandomCustomer(names);
+    customersLine.push_back(newCustomer);
+    cout << "\t" << newCustomer << " joined the line\n";
+}
+
+// Function to serve a customer at the front of the line
+void customerGetsServed(DoublyLinkedList& customersLine) {
+    cout << "\t" << customersLine.get_front() << " is served\n";
+    customersLine.pop_front();
+}
+
+// Function to have the customer at the end of the line leave
+void customerAtEndLeaves(DoublyLinkedList& customersLine) {
+    cout << "\t" << customersLine.get_back() << " (at the rear) left the line\n";
+    customersLine.pop_back();
+}
+
+// Function to have a random customer in the line leave
+void randomCustomerLeaves(DoublyLinkedList& customersLine) {
+    int randomPos = rand() % customersLine.get_size() + 1;
+    cout << "\t" << customersLine.get_at_pos(randomPos) << " left the line\n";
+    customersLine.delete_pos(randomPos);
+}
+
+// Function to have a VIP customer join the line and skip to the front
+void vipCustomerJoins(vector<string>& names, DoublyLinkedList& customersLine) {
+    string newCustomer = getRandomCustomer(names);
+    customersLine.push_back(newCustomer);
+    cout << "\t" << newCustomer << " (VIP) joins the front of the line\n";
+}
+
+// Function to print the line of customers
+void printResultingLine(const DoublyLinkedList& customersLine) {
+    cout << "\tResulting line:\n";
+    customersLine.print();
 }
