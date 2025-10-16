@@ -41,6 +41,37 @@ public:
         }
     }
 
+    string get_at_pos(int position) {
+        if (position < 0) {
+            cout << "Position must be >= 0." << endl;
+            return;
+        }
+
+        Node* temp = head;
+        for (int i = 0; i < position && temp; ++i)
+            temp = temp->next;
+
+        if (!temp) {
+            cout << "Position exceeds list size. Node not inserted.\n";
+            return;
+        }
+
+        return temp->data;
+    }
+
+    int get_size() {
+        int size;
+
+        Node* temp = head;
+        for (int i = 0; i < position && temp; ++i) {
+            temp = temp->next;
+            ++size;
+        }
+
+
+        return temp->data;
+    }
+
     /*
     void insert_after(int value, int position) {
         if (position < 0) {
@@ -245,9 +276,10 @@ string getRandomCustomer(vector<string>& names) {
 void customerJoinsLine(vector<string>& names, DoublyLinkedList& customersLine) {
     string newCustomer = getRandomCustomer(names);
     customersLine.push_back(newCustomer);
-    cout << "\t" << newCustomer << " joins the line\n";
+    cout << "\t" << newCustomer << " joined the line\n";
 }
 
+// TODO: possibly make it so that when a customer leaves, they get added back to the names vector (and can come back later?)
 void customerGetsServed(DoublyLinkedList& customersLine) {
     cout << "\t" << customersLine.get_front() << " is served\n";
     customersLine.pop_front();
@@ -258,10 +290,16 @@ void customerAtEndLeaves(DoublyLinkedList& customersLine) {
     customersLine.pop_back();
 }
 
+void randomCustomerLeaves(DoublyLinkedList& customersLine, int randomPos) {
+    cout << "\t" << customersLine.get_at_pos(randomPos) << " left the line\n";
+    customersLine.delete_pos(randomPos);
+}
+
 int main() {
     srand(time(0)); // Seed
 
     DoublyLinkedList customersLine;
+    int lineSize = 0;
 
     // Read all the names from the file, store it in a vector
     vector<string> names;
@@ -303,6 +341,17 @@ int main() {
         probability = rand() % 100 + 1;
         if (probability <= 20) {
             customerAtEndLeaves(customersLine);
+        }
+
+        // 10% chance that any particular customer in the line decides they don't want to wait and leaves
+        probability = rand() % 100 + 1;
+        if (probability <= 10) {
+            randomCustomerLeaves(customerLine);
+        }
+
+        probability = rand() % 100 + 1;
+        if (probability <= 10) {
+
         }
 
     }
