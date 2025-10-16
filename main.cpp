@@ -44,7 +44,7 @@ public:
     string get_at_pos(int position) {
         if (position < 0) {
             cout << "Position must be >= 0." << endl;
-            return;
+            return "";
         }
 
         Node* temp = head;
@@ -52,24 +52,23 @@ public:
             temp = temp->next;
 
         if (!temp) {
-            cout << "Position exceeds list size. Node not inserted.\n";
-            return;
+            cout << "Position exceeds list size.\n";
+            return "";
         }
 
         return temp->data;
     }
 
     int get_size() {
-        int size;
+        int size = 0;
 
         Node* temp = head;
-        for (int i = 0; i < position && temp; ++i) {
-            temp = temp->next;
+        while (temp) {
             ++size;
+            temp = temp->next;
         }
 
-
-        return temp->data;
+        return size;
     }
 
     /*
@@ -290,9 +289,16 @@ void customerAtEndLeaves(DoublyLinkedList& customersLine) {
     customersLine.pop_back();
 }
 
-void randomCustomerLeaves(DoublyLinkedList& customersLine, int randomPos) {
+void randomCustomerLeaves(DoublyLinkedList& customersLine) {
+    int randomPos = rand() % customersLine.get_size();
     cout << "\t" << customersLine.get_at_pos(randomPos) << " left the line\n";
     customersLine.delete_pos(randomPos);
+}
+
+void vipCustomerJoins(vector<string>& names, DoublyLinkedList& customersLine) {
+    string newCustomer = getRandomCustomer(names);
+    customersLine.push_back(newCustomer);
+    cout << "\t" << newCustomer << " joined the line\n";
 }
 
 int main() {
@@ -343,15 +349,16 @@ int main() {
             customerAtEndLeaves(customersLine);
         }
 
-        // 10% chance that any particular customer in the line decides they don't want to wait and leaves
+        // 10% chance that any particular customer in the line gets tired of waiting and leaves
         probability = rand() % 100 + 1;
         if (probability <= 10) {
-            randomCustomerLeaves(customerLine);
+            randomCustomerLeaves(customersLine);
         }
-
+        
+        // 10% chance that a VIP customer gets to skip the line and go straight to the counter and order
         probability = rand() % 100 + 1;
         if (probability <= 10) {
-
+            vipCustomerJoins(names, customersLine);
         }
 
     }
