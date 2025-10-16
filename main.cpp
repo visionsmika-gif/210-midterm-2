@@ -29,18 +29,21 @@ private:
 public:
     DoublyLinkedList() { head = nullptr; tail = nullptr; }
 
+    // Function to get the data at the head node
     string get_front() {
         if (head) {
             return head->data;
         }
     }
 
+    // Function to get the data at the tail node
     string get_back() {
         if (tail) {
             return tail->data;
         }
     }
 
+    // Function to get the data at a certain position
     string get_at_pos(int position) {
         if (position < 0) {
             cout << "Position must be >= 0." << endl;
@@ -59,6 +62,7 @@ public:
         return temp->data;
     }
 
+    // Function to get the number of nodes in the linked list
     int get_size() {
         int size = 0;
 
@@ -71,8 +75,7 @@ public:
         return size;
     }
 
-    /*
-    void insert_after(int value, int position) {
+    void insert_after(const string& value, int position) {
         if (position < 0) {
             cout << "Position must be >= 0." << endl;
             return;
@@ -101,10 +104,10 @@ public:
         else
             tail = newNode;
         temp->next = newNode;
-    }*/
+    }
 
-    /*
-    void delete_val(int value) {
+    
+    void delete_val(const string& value) {
         if (!head) return;
 
         Node* temp = head;
@@ -125,9 +128,8 @@ public:
             tail = temp->prev; 
 
         delete temp;
-    }*/
+    }
 
-    // Any particular customer in the line (random position) decides they don't want to wait and leaves
     void delete_pos(int pos) {
         if (!head) {
             cout << "List is empty." << endl;
@@ -158,18 +160,13 @@ public:
             pop_back();
             return;
         }
-    
+
         Node* tempPrev = temp->prev;
-        if (tempPrev) {
-            tempPrev->next = temp->next;
-        }
-        if (temp->next) {
-            temp->next->prev = tempPrev;
-        }
+        tempPrev->next = temp->next;
+        temp->next->prev = tempPrev;
         delete temp;
     }
 
-    // New customer joins the end of the line
     void push_back(string v) {
         Node* newNode = new Node(v);
         if (!tail)
@@ -181,7 +178,6 @@ public:
         }
     }
     
-    // VIP skips the line
     void push_front(string v) {
         Node* newNode = new Node(v);
         if (!head)
@@ -193,7 +189,6 @@ public:
         }
     }
 
-    // Customer at the beginning of the line is helped (and leaves)
     void pop_front() {
 
         if (!head) {
@@ -212,7 +207,6 @@ public:
         delete temp;
     }
 
-    // Customer at the end of the line gets tired of waiting and leaves
     void pop_back() {
         if (!tail) {
             cout << "List is empty." << endl;
@@ -306,12 +300,10 @@ void vipCustomerJoins(vector<string>& names, DoublyLinkedList& customersLine) {
 }
 
 int main() {
-    srand(time(0)); // Seed
+    srand(time(0));                     // Seed for RNG
+    DoublyLinkedList customersLine;     // Line of customers at the coffee shop
 
-    DoublyLinkedList customersLine;
-    int lineSize = 0;
-
-    // Read all the names from the file, store it in a vector
+    // Read all the names from the file and store it in a vector.
     vector<string> names;
     ifstream namesFile("names.txt");
     if (!namesFile) {
@@ -323,7 +315,7 @@ int main() {
         names.push_back(name);
     }
 
-    // Open the store and add five customers (time step #1)
+    // Time step #1: Open the store and add five customers right away.
     cout << "Store opens:\n";
     for (int i = 0; i < 5; ++i) {
         customerJoinsLine(names, customersLine);
@@ -331,7 +323,7 @@ int main() {
     cout << "\tResulting line:\n";
     customersLine.print();
 
-    // Time period runs 20 times, starting at time step #2
+    // Time step #2 through #20:
     for (int i = 2; i <= 20; ++i) {
         cout << "Time step #" << i << ":\n";
         
@@ -368,7 +360,6 @@ int main() {
         cout << "\tResulting line:\n";
         customersLine.print();
     }
-
     
     return 0;
 }
