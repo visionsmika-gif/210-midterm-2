@@ -237,7 +237,7 @@ public:
             delete temp;
         }
     }
-    void print() {
+    void print() const {
         Node* current = head;
         if (!current) {
             cout << "List is empty." << endl;
@@ -265,6 +265,7 @@ public:
 
 string getRandomCustomer(vector<string>& names) {
     if (names.empty()) {
+        cout << "No names are in the list.\n";
         return "";
     }
     string customer;
@@ -305,6 +306,11 @@ void vipCustomerJoins(vector<string>& names, DoublyLinkedList& customersLine) {
     cout << "\t" << newCustomer << " joined the line\n";
 }
 
+void printResultingLine(const DoublyLinkedList& customersLine) {
+    cout << "\tResulting line:\n";
+    customersLine.print();
+}
+
 int main() {
     srand(time(0));                     // Seed for RNG
     DoublyLinkedList customersLine;     // Line of customers at the coffee shop
@@ -326,15 +332,14 @@ int main() {
     for (int i = 0; i < 5; ++i) {
         customerJoinsLine(names, customersLine);
     }
-    cout << "\tResulting line:\n";
-    customersLine.print();
+    printResultingLine(customersLine);
 
     // Time step #2 through #20:
     for (int i = 2; i <= 20; ++i) {
         cout << "Time step #" << i << ":\n";
         int probability;
 
-        // 40% chance of a customer being helped at the beginning of hte line and ordering their coffee
+        // 40% chance of a customer being helped at the beginning of the line and ordering their coffee
         probability = rand() % 100 + 1;
         if (probability <= 40) {
             customerGetsServed(customersLine);
@@ -365,8 +370,7 @@ int main() {
         }
 
         // At the end of the time step, print the current line of customers.
-        cout << "\tResulting line:\n";
-        customersLine.print();
+        printResultingLine(customersLine);
     }
     
     return 0;
