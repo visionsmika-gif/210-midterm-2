@@ -34,6 +34,7 @@ public:
         if (head) {
             return head->data;
         }
+        return "";
     }
 
     // Function to get the data at the tail node
@@ -41,6 +42,7 @@ public:
         if (tail) {
             return tail->data;
         }
+        return "";
     }
 
     // Function to get the data at a certain position
@@ -162,8 +164,12 @@ public:
         }
 
         Node* tempPrev = temp->prev;
-        tempPrev->next = temp->next;
-        temp->next->prev = tempPrev;
+        if (tempPrev) {
+            tempPrev->next = temp->next;
+        }
+        if (temp->next) {
+            temp->next->prev = tempPrev;
+        }
         delete temp;
     }
 
@@ -288,7 +294,7 @@ void customerAtEndLeaves(DoublyLinkedList& customersLine) {
 }
 
 void randomCustomerLeaves(DoublyLinkedList& customersLine) {
-    int randomPos = rand() % customersLine.get_size();
+    int randomPos = rand() % customersLine.get_size() + 1;
     cout << "\t" << customersLine.get_at_pos(randomPos) << " left the line\n";
     customersLine.delete_pos(randomPos);
 }
@@ -326,9 +332,10 @@ int main() {
     // Time step #2 through #20:
     for (int i = 2; i <= 20; ++i) {
         cout << "Time step #" << i << ":\n";
-        
-        int probability = rand() % 100 + 1;    // returns a random number 1-100
+        int probability;
+
         // 40% chance of a customer being helped at the beginning of hte line and ordering their coffee
+        probability = rand() % 100 + 1;
         if (probability <= 40) {
             customerGetsServed(customersLine);
         }
@@ -357,6 +364,7 @@ int main() {
             vipCustomerJoins(names, customersLine);
         }
 
+        // At the end of the time step, print the current line of customers.
         cout << "\tResulting line:\n";
         customersLine.print();
     }
