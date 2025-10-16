@@ -160,8 +160,12 @@ public:
         }
     
         Node* tempPrev = temp->prev;
-        tempPrev->next = temp->next;
-        temp->next->prev = tempPrev;
+        if (tempPrev) {
+            tempPrev->next = temp->next;
+        }
+        if (temp->next) {
+            temp->next->prev = tempPrev;
+        }
         delete temp;
     }
 
@@ -240,11 +244,11 @@ public:
             return;
         }
         while (current) {
-            cout << "\t" << current->data << "\n";
+            cout << "\t\t" << current->data << "\n";
             current = current->next;
         }
     }
-
+    
     void print_reverse() {
         Node* current = tail;
         if (!current) { 
@@ -319,7 +323,7 @@ int main() {
         names.push_back(name);
     }
 
-    // Open the store and add five customers (time step 1)
+    // Open the store and add five customers (time step #1)
     cout << "Store opens:\n";
     for (int i = 0; i < 5; ++i) {
         customerJoinsLine(names, customersLine);
@@ -327,7 +331,7 @@ int main() {
     cout << "\tResulting line:\n";
     customersLine.print();
 
-    // Time period runs 20 times.
+    // Time period runs 20 times, starting at time step #2
     for (int i = 2; i <= 20; ++i) {
         cout << "Time step #" << i << ":\n";
         
@@ -361,6 +365,8 @@ int main() {
             vipCustomerJoins(names, customersLine);
         }
 
+        cout << "\tResulting line:\n";
+        customersLine.print();
     }
 
     
